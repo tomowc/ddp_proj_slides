@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NRI Explorer</title>
+  <meta charset="utf-8">
+  <meta name="description" content="NRI Explorer">
+  <meta name="author" content="">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>NRI Explorer</h1>
+    <h2>Developing Data Products Course Project (January 2015)</h2>
+    <p><br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Motivation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Each year World Economic Forum publishes <a href="http://www.weforum.org/reports/global-information-technology-report-2014">report</a> which presents <a href="http://en.wikipedia.org/wiki/Networked_Readiness_Index">NRI</a> index for about 150 countries</li>
+<li>Information card about specific country looks like this:</li>
+</ul>
+
+<p><img src="./assets/img/img1.jpg" alt="200"></p>
+
+<ul>
+<li>The aim of the presented application was to provide the possibility of comparing countries in terms of 10 main indicators which formulate the NRi index</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Application description</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Basic assumption: simple - just choose countries and watch data changing</li>
+<li>Data presented in radar chart</li>
+</ul>
+
+<p><img src="./assets/img/img2.jpg" alt="200"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>File Global.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Its role is to prepare the original data obtained from <a href="http://www.weforum.org/global-information-technology-report-2014-data-platform">this</a> site, which are in the long format (i.e. few columns):</li>
+</ul>
+
+<pre><code>## &#39;data.frame&#39;:    31106 obs. of  11 variables:
+##  $ Edition          : int  2012 2013 2014 2012 2013 2014 2012 2013 2014 2012 ...
+##  $ Entity.code      : chr  &quot;AGO&quot; &quot;AGO&quot; &quot;AGO&quot; &quot;ALB&quot; ...
+##  $ Entity           : chr  &quot;Angola&quot; &quot;Angola&quot; &quot;Angola&quot; &quot;Albania&quot; ...
+##  $ GLOBAL.ID        : chr  &quot;NRI&quot; &quot;NRI&quot; &quot;NRI&quot; &quot;NRI&quot; ...
+##  $ Series.with.units: chr  &quot;Networked Readiness Index (1-7)&quot; &quot;Networked Readiness Index (1-7)&quot; &quot;Networked Readiness Index (1-7)&quot; &quot;Networked Readiness Index (1-7)&quot; ...
+##  $ Rank             : int  140 NA 144 68 83 95 30 25 24 92 ...
+##  $ Value            : num  2.49 NA 2.52 3.89 3.75 ...
+##  $ Date.description : chr  &quot;2012 edition&quot; &quot;2013 edition&quot; &quot;2014 edition&quot; &quot;2012 edition&quot; ...
+##  $ Note             : chr  &quot;Refer to Chapter 1.1 of The Global Information Technology 2012 for details about the computation methodology&quot; &quot;Refer to Chapter 1.1 of The Global Information Technology Report 2013 for details about the computation&quot; &quot;Refer to Chapter 1.1 of The Global Information Technology 2014 for details about the computation methodology&quot; &quot;Refer to Chapter 1.1 of The Global Information Technology 2012 for details about the computation methodology&quot; ...
+##  $ Source           : chr  &quot;World Economic Forum;The Global Information Technology Report 2012; www.weforum.org/gcr&quot; &quot;World Economic Forum;The Global Information Technology Report 2013;www.weforum.org/gitr&quot; &quot;World Economic Forum;The Global Information Technology Report 2014; www.weforum.org/gcr&quot; &quot;World Economic Forum;The Global Information Technology Report 2012; www.weforum.org/gcr&quot; ...
+##  $ Source.date      : chr  &quot;24/04/2012&quot; &quot;01/4/2013&quot; &quot;22/04/2014&quot; &quot;24/04/2012&quot; ...
+</code></pre>
+
+<p>(the aim was to be absolutely transparent about all data transformation performed for the assignment)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Files ui.R and server.R</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>ui.R is responsible for application interface - it mainly allows a user to choose countries, but it also presents information about application</li>
+<li>server.R reacts on user&#39;s action - it selects data for chosen countries, combines them into one dataframe and then creates plot and table to be displayed</li>
+</ul>
+
+<p>Oh, and <a href="https://www.youtube.com/watch?v=hyCzbXx9i-M">one more thing</a> ;) The user is allowed to download data in a simplified form.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Motivation'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Application description'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='File Global.R'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Files ui.R and server.R'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
